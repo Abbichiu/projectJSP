@@ -1,0 +1,212 @@
+
+select * from login;
++----------+----------+---------------+
+| username | password | register_date |
++----------+----------+---------------+
+| A1234567 | 12345678 | 2023-09-30    |
+| S1234567 | 12345678 | 2023-09-30    |
+| S1234568 | 12345678 | 2023-09-30    |
+| S1234569 | 12345678 | 2023-09-30    |
+| T1234567 | 12345678 | 2023-09-30    |
++----------+----------+---------------+
+
+ALTER TABLE login ADD COLUMN register_date DATE;
+UPDATE login SET register_date = STR_TO_DATE('30/09/2023', '%d/%m/%Y');
+
+
+//1.create a table for personal information
+CREATE TABLE personal (
+
+  username VARCHAR(20)PRIMARY KEY,
+  fullname VARCHAR(20),
+  gender VARCHAR(10),
+  studid VARCHAR(20) PRIMARY KEY,
+  hkid VARCHAR(20),
+  email VARCHAR(255),
+  address VARCHAR(255),
+  birthdate DATE,
+  subject VARCHAR(255),
+  phone VARCHAR(20)
+);
+INSERT INTO personal (username, fullname, gender, studid, hkid, email, address, birthdate, subject, phone)
+VALUES ('S1234567', 'Chan Tai Man', 'Male', 'S1234567', 'A1234567', 'taiman@gmail.com', 'Hong Kong Island', '2003-01-01', 'Computer Science', '123-456-7890');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO personal (username, fullname, gender, studid, hkid, email, address, birthdate, subject, phone)
+VALUES ('S1234568', 'Steve Chan', 'Male', 'S1234568', 'A1234568', 'steve@gmail.com', 'Kowloon', '2003-01-23', 'Computer Science', '123-456-7891');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO personal (username, fullname, gender, studid, hkid, email, address, birthdate, subject, phone)
+VALUES ('S1234569', 'Chris Wong', 'Female', 'S1234569', 'A1234569', 'chris@gmail.com', 'New Territories', '2003-02-07', 'Computer Science', '123-456-7892');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO personal (username, fullname, gender, studid, hkid, email, address, birthdate, subject, phone)
+VALUES ('T1234567', 'Amy Wong', 'Female', 'T1234567', 'Y1234569', 'amy@gmail.com', 'New Territories', '1990-02-15', 'Computing lecturer', '123-456-7844');
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO personal (username, fullname, gender, studid, hkid, email, address, birthdate, subject, phone)
+VALUES ('A1234567', 'Sam Li', 'Male', 'A1234567', 'Y1234568', 'sam@gmail.com', 'Hong Kong Island', '1995-08-07', 'system admin', '123-456-7895');
+---------------------------------------------------------------------------------------------------------------------------------------------------------
++----------+--------------+--------+----------+-----------+------------------+------------------+------------+--------------------+--------------+
+| username | fullname     | gender | studid   | hkid      | email            | address          | birthdate  | subject            | phone        |
++----------+--------------+--------+----------+-----------+------------------+------------------+------------+--------------------+--------------+
+| A1234567 | Sam Li       | Male   | A1234567 | Y1234568  | sam@gmail.com    | Hong Kong Island | 1995-08-07 | system admin       | 123-456-7895 |
+| S1234567 | Chan Tai Man | Male   | S1234567 | A12345678 | taiman@gmail.com | Hong Kong Island | 2003-01-01 | Computer           | 123-456-7890 |
+| S1234568 | Steve Chan   | Male   | S1234568 | A1234568  | steve@gmail.com  | Kowloon          | 2003-01-23 | Computer Science   | 123-456-7891 |
+| S1234569 | Chris Wong   | Female | S1234569 | A1234569  | chris@gmail.com  | New Territories  | 2003-02-07 | Computer Science   | 123-456-7892 |
+| T1234567 | Amy Wong     | Female | T1234567 | Y1234569  | amy@gmail.com    | New Territories  | 1990-02-15 | Computing lecturer | 123-456-7844 |
++----------+--------------+--------+----------+-----------+------------------+------------------+------------+--------------------+--------------+
+
+ALTER TABLE personal
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (username, studentid);
+
++----------+--------------+--------+----------+-----------+------------------+------------------+------------+----------+--------------+
+| username | fullname     | gender | studid   | hkid      | email            | address          | birthdate  | subject  | phone        |
++----------+--------------+--------+----------+-----------+------------------+------------------+------------+----------+--------------+
+| S1234567 | Chan Tai Man | Male   | S1234567 | A12345678 | taiman@gmail.com | Hong Kong Island | 2003-01-01 | Computer | 123-456-7890 |
+
+//2. create a table for login
+CREATE TABLE login(
+
+  username VARCHAR(20)    PRIMARY KEY,
+  password  VARCHAR(20)
+);
+INSERT INTO login(username,password) VALUES('S1234567','12345678');
+
++----------+----------+
+| username | password |
++----------+----------+
+| S1234567 | 12345678 |
+| S1234568 | 12345678 |
++----------+----------+
+//3. create a table for student
+-- Create the student table
+CREATE TABLE student (
+  username VARCHAR(20) PRIMARY KEY,
+  studname VARCHAR(20),
+  studid VARCHAR(20) PRIMARY KEY,
+  program VARCHAR(20),
+  totcredit INT,
+  gpa NUMERIC(2,1),
+  cgpa NUMERIC(2,1)
+);
+
+-- Insert values into the student table
+INSERT INTO student(username, studname, studid, program, totcredit, gpa, cgpa)
+VALUES ('S1234567', 'Chan Tai Man', 'S1234567', 'Computing', 20, 3.0, 2.9);
+
+INSERT INTO student(username, studname, studid, program, totcredit, gpa, cgpa)
+VALUES ('S1234568', 'Steve Chan', 'S1234568', 'Computing', 20, 2.5, 2.3);
+
+INSERT INTO student(username, studname, studid, program, totcredit, gpa, cgpa)
+VALUES ('S1234569', 'Chris Wong', 'S1234569', 'Computing', 20, 3.1, 3.0);
+
+-- Modify the student table to have a composite primary key
+ALTER TABLE student
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (username, studid);
+-- Add an index on the studid column in the student table
+ALTER TABLE student
+ADD INDEX idx_studid(studid);
+
+//4. create a table studentcourse
+-- CREATE TABLE studentcourse (
+  studcourseid INT PRIMARY KEY AUTO_INCREMENT,
+  studid VARCHAR(20),
+  coursecode VARCHAR(20),
+  coursename VARCHAR(50),
+  enroll VARCHAR(5) CHECK (enroll IN ('yes', 'no')),
+  termcode VARCHAR(20) CHECK (termcode IN ('Autumn', 'Spring')),
+  credit INT,
+  grade VARCHAR(5) CHECK (grade IN ('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'F')),
+  FOREIGN KEY (studid) REFERENCES student(studid)
+);
+
+-- Insert values into the studentcourse table
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234567', 'COMP S350F', 'Software Engineering', 'yes', 'Autumn', 5, 'A-');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234567', 'COMP S312F', 'Java Programming', 'yes', 'Autumn', 5, 'B+');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234567', 'COMP S266F', 'Computer Architecture', 'yes', 'Autumn', 5, 'B');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234567', 'MATH S201F', 'Calculus', 'yes', 'Autumn', 5, 'C+');
+-------------------------------------------------------------------------------------------
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234568', 'COMP S350F', 'Software Engineering', 'yes', 'Autumn', 5, 'B');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234568', 'COMP S312F', 'Java Programming', 'yes', 'Autumn', 5, 'B+');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234568', 'COMP S266F', 'Computer Architecture', 'yes', 'Autumn', 5, 'B');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234568', 'MATH S201F', 'Calculus', 'yes', 'Autumn', 5, 'C+');
+-------------------------------------------------------------------------------------------
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234569', 'COMP S350F', 'Software Engineering', 'yes', 'Autumn', 5, 'A-');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234569', 'COMP S312F', 'Java Programming', 'yes', 'Autumn', 5, 'B+');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234569', 'COMP S266F', 'Computer Architecture', 'yes', 'Autumn', 5, 'A');
+INSERT INTO studentcourse(studid, coursecode, coursename, enroll, termcode, credit, grade)
+VALUES ('S1234569', 'MATH S201F', 'Calculus', 'yes', 'Autumn', 5, 'C+');
+-- simple join: student and studentcourse
+SELECT s.*, sc.*
+FROM student s
+JOIN studentcourse sc ON s.studid = sc.studid;
++----------+--------------+----------+-----------+-----------+------+------+--------------+----------+------------+----------------------+--------+----------+--------+-------+
+| username | studname     | studid   | program   | totcredit | gpa  | cgpa | studcourseid | studid   | coursecode | coursename           | enroll | termcode | credit | grade |
++----------+--------------+----------+-----------+-----------+------+------+--------------+----------+------------+----------------------+--------+----------+--------+-------+
+| S1234567 | Chan Tai Man | S1234567 | Computing |        20 |  3.0 |  2.9 |            1 | S1234567 | COMP S350F | Software Engineering | yes    | Autumn   |      5 | A-    |
+| S1234567 | Chan Tai Man | S1234567 | Computing |        20 |  3.0 |  2.9 |            2 | S1234567 | COMP S312F | Java Programming     | yes    | Autumn   |      5 | B+    |
+| S1234567 | Chan Tai Man | S1234567 | Computing |        20 |  3.0 |  2.9 |            3 | S1234567 | MATH S201F | Calculus             | yes    | Autumn   |      5 | C+    |
++----------+--------------+----------+-----------+-----------+------+------+--------------+----------+-----
+---5. create a table teacher
+CREATE TABLE teacher (
+  username VARCHAR(20) PRIMARY KEY,
+  teacherid VARCHAR(20),
+  program VARCHAR(20)
+ 
+);
+
+ALTER TABLE teacher
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (username, teacherid);
+
+INSERT INTO teacher(username, teacherid, program)
+VALUES ('T1234567', 't1234567', 'computing');
+-- simple join: teacher and student
+SELECT s.*, t.*
+FROM student s
+JOIN teacher t  ON s.program = t.program;
++----------+--------------+----------+-----------+-----------+------+------+----------+-----------+-----------+
+| username | studname     | studid   | program   | totcredit | gpa  | cgpa | username | teacherid | program   |
++----------+--------------+----------+-----------+-----------+------+------+----------+-----------+-----------+
+| S1234567 | Chan Tai Man | S1234567 | Computing |        20 |  3.0 |  2.9 | A1234567 | A1234567  | computing |
++----------+--------------+----------+-----------+-----------+------+------+----------+-----------+-----------+
+
+
+-------+----------------------+--------+----------+--------+-------+
+6.create a table admin
+CREATE TABLE admin (
+  username VARCHAR(20) PRIMARY KEY,
+  adminid VARCHAR(20)
+  
+ 
+);
+ALTER TABLE admin
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (username, adminid);
+);
+
+INSERT INTO admin (username, adminid)VALUES ('A1234567', 'A1234567');
+
+-----------------------------------------------------------------------
+SELECT l.*, p.*
+FROM login l
+JOIN personal p ON l.username = p.username ;
+username | password | register_date | username | fullname     | gender | studid   | hkid      | email            | address          | birthdate  | subject            | phone        |
++----------+----------+---------------+----------+--------------+--------+----------+-----------+------------------+------------------+------------+--------------------+--------------+
+| A1234567 | 12345678 | 2023-09-30    | A1234567 | Sam Li       | Male   | A1234567 | Y1234568  | sam@gmail.com    | Hong Kong Island | 1995-08-07 | system admin       | 123-456-7895 |
+| S1234567 | 12345678 | 2023-09-30    | S1234567 | Chan Tai Man | Male   | S1234567 | A12345678 | taiman@gmail.com | Hong Kong Island | 2003-01-01 | Computer           | 123-456-7890 |
+| S1234568 | 12345678 | 2023-09-30    | S1234568 | Steve Chan   | Male   | S1234568 | A1234568  | steve@gmail.com  | Kowloon          | 2003-01-23 | Computer Science   | 123-456-7891 |
+| S1234569 | 12345678 | 2023-09-30    | S1234569 | Chris Wong   | Female | S1234569 | A1234569  | chris@gmail.com  | New Territories  | 2003-02-07 | Computer Science   | 123-456-7892 |
+| T1234567 | 12345678 | 2023-09-30    | T1234567 | Amy Wong     | Female | T1234567 | Y1234569  | amy@gmail.com    | New Territories  | 1990-02-15 | Computing lecturer | 123-456-7844 |
++----------+----------+---------------+----------+--------------+--------+----------+-----------+------------------+------------------+------------+--------------------+--------------+
+
