@@ -1,0 +1,81 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>Student Academic Record</title> 
+		<style>
+			body {
+				background-image: url('blue-color-background.jpg');
+			}
+			
+			button {
+				background-color: #74B72E;
+				border-radius: 12px;
+			}
+		</style>
+	</head> 
+	<body> 
+		<h1>Student Academic Record</h1> 
+		<h3>Staff Name: Lee Siu Ming</h3>
+		<h3>Staff ID: T1357911</h3>
+		<table border="1">
+		<tr> <th>Student ID</th> 
+		<th>Student Full Name</th> 
+		<th>Program</th> 
+		<th>Course Code</th> 
+		<th>Course Name</th> 
+		<th>Term Code</th> 
+		<th>Enrollment</th>
+		<th>Grade</th> 
+		</tr> 
+		<tr> 
+		<td>S1234555</td> 
+		<td>John Lee</td> 
+		<td>Bachelor of Computing</td> 
+		<td>MATH S201F</td> 
+		<td>Calculus</td> 
+		<td>Autumn</td>
+		<td>Yes</td> 
+		<td>B-</td>
+        <td><button class="btn btn-primary">Modify</button> <button class="btn btn-danger">Calculate</button></td>		
+		</tr> 
+		<tr> 
+		<td>S1234567</td>
+		<td>Steve Chan</td>
+		<td>Bachelor of Computing</td>
+		<td>COMP S350F</td>
+		<td>Software Engineering</td>
+		<td>Autumn</td> 
+		<td>Yes</td>
+		<td>A-</td>
+        <td><button class="btn btn-primary">Modify</button> <button class="btn btn-danger">Calculate</button></td>		
+		</tr>
+		<tr> 
+		<td>S1234567</td>
+		<td>Steve Chan</td> 
+		<td>Bachelor of Computing</td> 
+		<td>COMP S312F</td>
+		<td>Java Programming</td> 
+		<td>Autumn</td> 
+		<td>Yes</td>
+		<td>B+</td>
+        <td><button class="btn btn-primary">Modify</button> <button class="btn btn-danger">Calculate</button></td>
+		</tr> 
+		<tr> 
+		<td>S1234566</td>
+		<td>Adam Wong</td>
+		<td>Bachelor of Computing</td>
+		<td>COMP S265F</td> 
+		<td>Computer Algorithm</td>
+		<td>Spring</td>
+		<td>Yes</td>
+		<td>B+</td>
+                <td><button class="btn btn-primary" onclick="UPDATE(this)">Modify</button> <button class="btn btn-danger">Calculate</button></td>
+		</tr>
+		
+		<td colspan="4">Total Credit Hours: 12</td>
+		<td colspan="2">Term GPA: 3.4</td>
+		<td colspan="2">Cumulative GPA: 3.2</td>
+                </tr>
+	</table> 
+</body> 
+</html>
